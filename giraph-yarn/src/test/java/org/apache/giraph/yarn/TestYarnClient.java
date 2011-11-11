@@ -49,7 +49,8 @@ public class TestYarnClient {
         YarnClient client = new YarnClient();
         client.init(conf);
 
-        client.startAM();
+        boolean successful = client.waitForCompletion(true);
+        Assert.assertTrue("Unable to launch AM", successful);
     }
 
     @Test

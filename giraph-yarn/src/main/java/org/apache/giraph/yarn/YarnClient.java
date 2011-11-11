@@ -54,7 +54,7 @@ public class YarnClient {
         fs = FileSystem.get(conf);
     }
 
-    public void startAM() throws IOException {
+    public void run() throws IOException {
         LOG.info("Starting Client");
         clientStartTime = System.currentTimeMillis();
 
@@ -89,8 +89,16 @@ public class YarnClient {
         // or an exception thrown to denote some form of a failure
         LOG.info("Submitting application to ASM");
         applicationsManager.submitApplication(appRequest);
+    }
 
-        monitorApplication(appId);
+    public boolean waitForCompletion(boolean wait) throws IOException {
+        run();
+        if(wait) {
+            return monitorApplication(appId);
+        } else {
+            // if we got to this point, then we have submitted the job
+            return true;
+        }
     }
 
     private void initApplicationContext(ApplicationSubmissionContext appContext) throws IOException {
