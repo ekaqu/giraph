@@ -320,6 +320,7 @@ under the License.
             <!-- source control and IDEs -->
             <exclude>.git/**</exclude>
             <exclude>.idea/**</exclude>
+            <exclude>giraph-yarn/**</exclude>
          </excludes>
       </configuration>
     </plugin>
@@ -440,55 +441,6 @@ under the License.
         </plugins>
       </build>
     </profile>
-      <profile>
-          <id>hadoop_yarn</id>
-          <activation>
-              <property>
-                  <name>hadoop</name>
-                  <value>yarn</value>
-              </property>
-          </activation>
-          <properties>
-              <hadoop.version>remove</hadoop.version>
-          </properties>
-          <dependencies>
-              <dependency>
-                  <groupId>org.apache.hadoop</groupId>
-                  <artifactId>hadoop-yarn-api</artifactId>
-                  <version>0.23.0-SNAPSHOT</version>
-              </dependency>
-              <dependency>
-                  <groupId>org.apache.hadoop</groupId>
-                  <artifactId>hadoop-yarn-common</artifactId>
-                  <version>0.23.0-SNAPSHOT</version>
-              </dependency>
-
-              <!-- test jars -->
-              <dependency>
-                  <groupId>org.apache.hadoop</groupId>
-                  <artifactId>hadoop-yarn-server-tests</artifactId>
-                  <type>test-jar</type>
-                  <version>0.23.0-SNAPSHOT</version>
-                  <scope>test</scope>
-              </dependency>
-              <dependency>
-                  <groupId>org.apache.hadoop</groupId>
-                  <artifactId>hadoop-hdfs</artifactId>
-                  <type>test-jar</type>
-                  <version>0.23.0-SNAPSHOT</version>
-                  <scope>test</scope>
-              </dependency>
-              <dependency>
-                  <groupId>org.apache.hadoop</groupId>
-                  <artifactId>hadoop-common</artifactId>
-                  <version>0.23.0-SNAPSHOT</version>
-                  <type>test-jar</type>
-                  <scope>test</scope>
-              </dependency>
-
-
-          </dependencies>
-      </profile>
   </profiles>
 
   <dependencies>
@@ -498,12 +450,12 @@ under the License.
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-    <!--<dependency>-->
-      <!--<groupId>org.apache.hadoop</groupId>-->
-      <!--<artifactId>hadoop-core</artifactId>-->
-      <!--<version>${hadoop.version}</version>-->
-      <!--<scope>provided</scope>-->
-    <!--</dependency>-->
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-core</artifactId>
+      <version>${hadoop.version}</version>
+      <scope>provided</scope>
+    </dependency>
     <dependency>
       <groupId>org.codehaus.jackson</groupId>
       <artifactId>jackson-core-asl</artifactId>
