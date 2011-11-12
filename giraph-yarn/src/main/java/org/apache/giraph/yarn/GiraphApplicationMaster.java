@@ -110,7 +110,7 @@ public class GiraphApplicationMaster {
         List<Thread> launchThreads = new ArrayList<Thread>();
 
         AtomicInteger numCompltedContainers = new AtomicInteger();
-        while (!appDone && numCompltedContainers.get() < minWorkers) {
+        while (!appDone && numCompltedContainers.get() < minWorkers && numFailedContainers.get() == 0) {
             //TODO need a better way to figure out if all the workers are done
 
             // log current state
@@ -215,10 +215,6 @@ public class GiraphApplicationMaster {
                     + ", failed=" + numFailedContainers
                     + ", currentAllocated=" + numAllocatedContainers);
 
-            // TODO
-            // Add a timeout handling layer
-            // for misbehaving shell commands
-
         }
 
 
@@ -227,16 +223,15 @@ public class GiraphApplicationMaster {
         FinishApplicationMasterRequest finishReq = Records.newRecord(FinishApplicationMasterRequest.class);
         finishReq.setAppAttemptId(appAttemptID);
         boolean isSuccess = true;
-        if (0 == 0) { //TODO add real logic here to find out how many containers failed
+        if (numFailedContainers.get() == 0) { //TODO add real logic here to find out how many containers failed
             finishReq.setFinishApplicationStatus(FinalApplicationStatus.SUCCEEDED);
         } else {
             finishReq.setFinishApplicationStatus(FinalApplicationStatus.FAILED);
             String diagnostics = "Diagnostics."
-//              + ", total=" + numTotalContainers
-//              + ", completed=" + numCompletedContainers.get()
-//              + ", allocated=" + numAllocatedContainers.get()
-//              + ", failed=" + numFailedContainers.get();
-                    + "total=0, completed=0, allocated=0, failed=0";
+              + ", total=" + totalContainers
+              + ", completed=" + numCompletedContainers.get()
+              + ", allocated=" + numAllocatedContainers.get()
+              + ", failed=" + numFailedContainers.get();
             finishReq.setDiagnostics(diagnostics);
             isSuccess = false;
         }
