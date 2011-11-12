@@ -55,7 +55,7 @@ public class TestYarnClient {
 
     @Test
     public void testCreateStagingDir() throws IOException {
-        Path stagingDir = YarnClient.getStagingDir(conf,
+        Path stagingDir = Util.getStagingDir(conf,
                 BuilderUtils.newApplicationId(System.currentTimeMillis(), 10));
 
         LOG.info(stagingDir);
